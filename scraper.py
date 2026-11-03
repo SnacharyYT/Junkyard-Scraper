@@ -2,7 +2,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-YARD_URL = "https://rgpick-a-part.com"
+YARD_URL = "https://www.rgpick-a-part.com/inventory.php"
 
 def build_static_dashboard():
     print("Fetching yard records...")
