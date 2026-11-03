@@ -23,30 +23,37 @@ def build_static_dashboard():
     for row in rows:
         cols = [ele.text.strip() for ele in row.find_all('td')]
         if len(cols) >= 5:
+            # Safely catch values out of the table cols list
+            year = cols[0]
+            make = cols[1]
+            model = cols[2]
+            stock = cols[3]
+            row_loc = cols[4]
+            
             table_rows_html += f"""
             <tr class="border-b border-gray-700 hover:bg-gray-750 transition inventory-row" 
-                data-make="{cols[1].lower()}" data-model="{cols[2].lower()}" data-year="{cols[0]}">
-                <td class="p-4 font-semibold text-gray-300">{cols[0]}</td>
-                <td class="p-4 font-bold text-white">{cols[1]}</td>
-                <td class="p-4 text-blue-300">{cols[2]}</td>
-                <td class="p-4"><span class="bg-gray-900 px-2.5 py-1 rounded text-green-400 font-mono text-sm border border-green-900">Row {cols[4]}</span></td>
-                <td class="p-4 text-gray-400 font-mono text-xs">{cols[3]}</td>
+                data-make="{make.lower()}" data-model="{model.lower()}" data-year="{year}">
+                <td class="p-4 font-semibold text-gray-300">{year}</td>
+                <td class="p-4 font-bold text-white">{make}</td>
+                <td class="p-4 text-blue-300">{model}</td>
+                <td class="p-4"><span class="bg-gray-900 px-2.5 py-1 rounded text-green-400 font-mono text-sm border border-green-900">Row {row_loc}</span></td>
+                <td class="p-4 text-gray-400 font-mono text-xs">{stock}</td>
             </tr>
             """
 
-    # Embed table rows right inside our interface boilerplate
+    # Embed table rows inside interface boilerplate
     full_html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JRScraper | Inventory Dashboard</title>
-    <script src="https://jsdelivr.net"></script>
+    <script src="https://tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen font-sans">
     <div class="max-w-6xl mx-auto p-6">
         <header class="mb-8 border-b border-gray-800 pb-6">
-            <h1 class="text-3xl font-extrabold text-blue-400">🚗 JRScraper Dash</h1>
+            <h1 class="text-3xl font-extrabold text-blue-400">🚗 JYScraper Dash</h1>
             <p class="text-gray-400 mt-1">Live updates cached from RG Pick-A-Part</p>
         </header>
 
