@@ -48,7 +48,7 @@ def build_static_dashboard():
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JRScraper | Inventory Dashboard</title>
-    <script src="https://tailwindcss.com"></script>
+    <script src="https://jsdelivr.net"></script>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen font-sans">
     <div class="max-w-6xl mx-auto p-6">
