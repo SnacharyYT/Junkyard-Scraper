@@ -1,15 +1,20 @@
-name: Deploy Dashboard to GoDaddy
+name: Deploy Dashboard to GitHub Pages
 
 on:
   schedule:
     - cron: '0 14 * * *' # Runs automatically every morning at 8:00 AM MST
   workflow_dispatch: # Allows you to manually trigger a test build
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Minimize Repository Code
+    - name: Checkout Repository Code
       uses: actions/checkout@v4
 
     - name: Set up Python
@@ -24,11 +29,18 @@ jobs:
     - name: Run Web Scraper Engine
       run: python scraper.py
 
-    - name: Push Webpage straight to GoDaddy Storage
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+    - name: Commit and Push index.html to Repository
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git add index.html
+        git commit -m "Automated daily inventory update" || echo "No changes to commit"
+        git push
+
+    - name: Upload artifact for Pages
+      uses: actions/upload-pages-artifact@v3
       with:
-        server: ${{ secrets.GODADDY_FTP_SERVER }}
-        username: ${{ secrets.GODADDY_FTP_USERNAME }}
-        password: ${{ secrets.GODADDY_FTP_PASSWORD }}
-        server-dir: /jrscraper/ # Matches your GoDaddy folder directory path
-        local-dir: ./
+        path: '.'
+
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
