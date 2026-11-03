@@ -23,7 +23,6 @@ def build_static_dashboard():
     for row in rows:
         cols = [ele.text.strip() for ele in row.find_all('td')]
         if len(cols) >= 5:
-            # Safely catch values out of the table cols list
             year = cols[0]
             make = cols[1]
             model = cols[2]
@@ -31,7 +30,7 @@ def build_static_dashboard():
             row_loc = cols[4]
             
             table_rows_html += f"""
-            <tr class="border-b border-gray-700 hover:bg-gray-750 transition inventory-row" 
+            <tr class="border-b border-gray-700 hover:bg-gray-800 transition inventory-row" 
                 data-make="{make.lower()}" data-model="{model.lower()}" data-year="{year}">
                 <td class="p-4 font-semibold text-gray-300">{year}</td>
                 <td class="p-4 font-bold text-white">{make}</td>
@@ -48,13 +47,16 @@ def build_static_dashboard():
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JRScraper | Inventory Dashboard</title>
-    <script src="https://jsdelivr.net"></script>
+    <script src="https://tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen font-sans">
     <div class="max-w-6xl mx-auto p-6">
-        <header class="mb-8 border-b border-gray-800 pb-6">
-            <h1 class="text-3xl font-extrabold text-blue-400">🚗 JYScraper Dash</h1>
-            <p class="text-gray-400 mt-1">Live updates cached from RG Pick-A-Part</p>
+        <header class="mb-8 border-b border-gray-800 pb-6 flex items-center gap-3">
+            <span class="text-3xl">🚗</span>
+            <div>
+                <h1 class="text-3xl font-extrabold text-blue-400">JYScraper Dash</h1>
+                <p class="text-gray-400 mt-1">Live updates cached from RG Pick-A-Part</p>
+            </div>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -105,7 +107,7 @@ def build_static_dashboard():
             }});
         }});
 
-        let watchlist = JSON.parse(localStorage.getItem('jr_watchlist')) || [];
+        let watchlist = JSON.parse(localStorage.getItem('jr_watchlist')) ||;
 
         function renderWatchlist() {{
             const container = document.getElementById('watchlistTags');
